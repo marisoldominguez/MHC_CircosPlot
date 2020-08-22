@@ -1,0 +1,180 @@
+#### CIRCOS PLOT MHC DATA TO MATCH ALLELE FREQ WITH POPULATIONS
+## https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781849694407/1/ch01lvl1sec10/creating-the-first-circos-diagram-must-know
+
+# create table2.txt
+X CO LP RN SL
+Allele1 17  10  1   1
+Allele2 0   2   5   9
+Allele3...
+
+cat HairEyeColor/HairEyeColorTable.txt | /home/marisol/Documents/Circos/circos-tools-0.23/tools/tableviewer/bin/parse-table | /home/marisol/Documents/Circos/circos-tools-0.23/tools/tableviewer/bin/make-conf -dir /media/sf_SharedFolder_GUEST/CircosPlot_MHC/table2-parsed.txt
+
+## This will create 11 new configuration files
+
+# karyotype.txt defines each ideogram band's name, width, and color. 
+# cells.txt is the segdup file containing the actual data. it dictates the width of each ribbon
+
+
+cd /media/sf_SharedFolder_GUEST/CircosPlot_MHC/table2-parsed.txt
+mkdir /media/sf_SharedFolder_GUEST/CircosPlot_MHC/table2-parsed.txt/results
+
+#Now we will create circosMHC.conf which compiles all the information with the following info:
+
+
+### circosMHC.conf
+
+## I use colors and fonts that came with installation
+
+<colors>
+#<<include colors2.conf>>
+<<include /home/marisol/Documents/Circos/circos-0.69-9/etc/colors2.conf>>
+<<include /media/sf_SharedFolder_GUEST/CircosPlot_MHC/table2-parsed.txt/colors_percentile.conf>>
+</colors>
+
+<fonts>
+<<include /home/marisol/Documents/Circos/circos-0.69-9/etc/fonts.conf>>
+</fonts>
+
+
+<ideogram>
+
+<spacing>
+default = 0.0075r #the spacing will be 1% of the size of all ideograms
+#break = 200u
+</spacing>
+
+thickness = 35p
+stroke_thickness = 1
+stroke_color = black
+fill = yes
+fill_color = black
+
+radius = 0.75r
+show_label = yes
+label_color = vvvdgrey
+label_font = normal
+label_radius = 1.22r #1.050r 
+label_size = 24
+label_parallel = no
+label_rotate = yes
+
+band_stroke_thickness = 0
+show_bands = no
+fill_bands = no
+
+</ideogram>
+
+
+chromosomes_display_default    = yes
+chromosomes_order_by_karyotype = yes
+#chromosomes_units              = 0.005r
+chromosomes_units = 1
+chromosome_radius =CO:0.71r;SL:0.71r;LO:0.71r;RO:0.71r #CO:0.81r;SL:0.81r;LO:0.81r;RO:0.81r
+karyotype = karyotype_ord.txt
+
+<<include ticks.conf>>
+
+<highlights>
+
+show = yes 
+
+<highlight>
+show = yes # highlight contribution row
+file = row.txt
+r0 = 1r+70p
+r1 = 1r+85p
+stroke_color = black
+stroke_thickness = 1 # highlight contribution stroke
+</highlight>
+
+<highlight>
+show = yes # highlight contribution col
+file = col.txt
+r0 = 1r+90p
+r1 = 1r+105p
+stroke_color = black
+stroke_thickness = 1 # highlight contribution stroke
+</highlight>
+
+#<highlight>
+#show = yes # highlight contribution all
+#file = all.txt
+#r0 = 1r+110p
+#r1 = 1r+125p
+#stroke_color = black
+#stroke_thickness = 1 # highlight contribution stroke
+#</highlight>
+
+<highlight>
+show = yes # highlight col cap 
+file = cap.col.txt
+r0 = 0.999r-20p
+r1 = 0.999r-10p
+stroke_color      = black
+stroke_thickness = 1 # highlight cap stroke
+</highlight>
+
+<highlight>
+show = yes # highlight row cap
+file = cap.row.txt
+r0 = 0.999r-10p
+r1 = 0.999r
+stroke_color     = black
+stroke_thickness = 1 # highlight cap stroke
+</highlight>
+
+</highlights>
+
+<links>
+
+z = 0
+radius = 1r - 150p
+bezier_radius = 0.0r
+bezier_radius_purity = 0.35
+<link>
+ribbon = yes
+flat = yes
+show = yes
+color = grey
+stroke_color = black
+stroke_thickness = 1
+radius        = 0.999r-20p
+thicknes = 2
+file = cells.txt
+</link>
+show_bands = yes
+
+</links>
+
+
+
+
+################################################################
+# The remaining content is standard and required. It is imported 
+# from default files in the Circos distribution.
+#
+# These should be present in every Circos configuration file and
+# overridden as required. To see the content of these files, 
+# look in etc/ in the Circos distribution.
+
+<image>
+# Included from Circos distribution.
+<<include image.conf>>
+</image>
+
+# RGB/HSV color definitions, color lists, location of fonts, fill patterns.
+# Included from Circos distribution.
+<<include /home/marisol/Documents/Circos/circos-0.69-9/etc/colors_fonts_patterns.conf>>
+
+# Debugging, I/O an dother system parameters
+# Included from Circos distribution.
+<<include /home/marisol/Documents/Circos/circos-0.69-9/etc/housekeeping.conf>>
+
+
+#run it like this:
+perl /home/marisol/Documents/Circos/circos-0.69-9/bin/circos -conf /media/sf_SharedFolder_GUEST/CircosPlot_MHC/table2-parsed.txt/circosMHC.conf
+
+## ####################################
+#DIVIDIR EN DOS CON DISTINTO RADIO
+######################################
+## http://circos.ca/documentation/tutorials/ideograms/variable_radius/images
