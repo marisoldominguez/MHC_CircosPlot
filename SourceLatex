@@ -1,0 +1,405 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{Madrid}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+% in the bottom the Univ name is cutted, the following is to adjust the size of the 3 sections in the bottom bar
+\makeatletter
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.43\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor\expandafter\beamer@ifempty\expandafter{\beamer@shortinstitute}{}{~~(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.266666\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatother
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset
+{
+    language=[LaTeX]TeX,
+    breaklines=true,
+    basicstyle=\tt\scriptsize,
+    %commentstyle=\color{green}
+    keywordstyle=\color{blue},
+    %stringstyle=\color{black}
+    identifierstyle=\color{magenta},
+}
+
+\title[circos plot]{DATA VISUALIZATION}
+\subtitle{Tool: circos}
+\author{Dr Marisol Domínguez}
+\institute{University of Potsdam} 
+\date{October 2, 2020}
+
+\usepackage{graphicx}
+
+% logo of circos
+\titlegraphic{\includegraphics[width=0.1\textwidth]{circos logo.png}
+  \begin{picture}(0,0)
+    \put(305,-120){\makebox(0,0)[rt]{\includegraphics[width=2cm]{example-image}}}
+  \end{picture}}
+\AtBeginSection[]{
+\begin{frame}{Talk Overview}
+\tableofcontents[currentsection]
+\end{frame}
+\frame{\sectionpage}
+}
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+%\logo{\includegraphics[width=.1\textwidth]{University of Potsdam Logo.png}\hspace*{.88\paperwidth}}
+\usepackage{textpos}
+
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{100mm}(.93\textwidth,-1cm)
+\includegraphics[width=.1\textwidth]{University of Potsdam Logo.png}
+\end{textblock*}}
+
+
+\begin{document}
+% to add slides we use \frame
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\section{Why circos plots?}
+
+\begin{frame}{What are circos plots?}
+	\begin{itemize}
+  		\item they are useful plots to represent complicated information (e.g. show several different data types across chromosomes in a single plot). 
+
+  		\begin{itemize}
+			\item Circos: software written in Perl for visualizing data in a circular layout. Krzywinski et al. Circos: An information aesthetic for comparative genomics. Genome Research 19:1639-1645 (2009)
+		\end{itemize}
+  		\pause
+  		\item Apart from original Circos (https://circos.ca):
+  		\begin{itemize}
+  		    \item Circa: For chromosome-based circos plots, Circa allows you to make circos plots without writing any code (paid tool).
+  		\item Circos table viewer website: allows to create only the chord diagram type of circos plot without installing software or writing any code.
+  		\item Galaxy Project website
+  		\item R packages: circlize, RCircos, CIRCUS, and OmicCircos  implement Circos in R.
+  		\end{itemize}
+  	\end{itemize}
+\end{frame}
+
+\begin{frame}{Types of circos plots}
+
+\begin{columns}
+\begin{column}{.5\textwidth}
+\item \textbf{Chromosome-based}
+    \includegraphics[width=0.75\textwidth]{circos_tomato_simple.png}
+    \item \tiny \textbf{Data can be:}
+    \item \tiny Differential gene expression
+    \item \tiny SNPs
+    \item \tiny Structural variants 
+    \item \tiny Repetitive elements
+    \item \tiny ...
+
+\end{column}
+\begin{column}{.5\textwidth}
+\item \textbf{Chord-diagram}
+    \includegraphics[width=0.75\textwidth]{circos_mhc.jpg}
+    \item \textbf{Data can be:}
+    \item \tiny Alleles in populations
+    \item \tiny People changing jobs into different sectors 
+    \item \tiny International migrations
+    \item \tiny ...
+
+\end{column}
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}{Should I care?}
+    \includegraphics[width=0.95\textwidth]{CanIuseIt.png.jpg}
+\end{frame}
+
+\begin{frame}{Advantages}
+\begin{itemize}
+    \item Simple input format (plain text)
+    \item Makes no assumption about data (tool for visualization)
+    \item Very flexible
+    \item You can put a lot of information in one figure (!)
+    \item \textbf{Linear vs Circular:}
+
+\end{itemize}
+\begin{itemize}
+        \item[--] sometimes it is the more efficient way to deliver information
+	    \item[--] more appealing for the eye
+\end{itemize}
+\pause
+\begin{columns}
+\begin{column}{.6\textwidth}
+    \includegraphics[width=0.98\textwidth]{efecto visual.png}
+\end{column}
+\begin{column}{.4\textwidth}
+    \item  \textbf {How long to scan the numbers in both figures?\tiny [1]} 
+    \item \tiny Effort in doing so in the left shape is higher than in the right one because right angles require more energy to transverse: switching your eye from vertical immediately to horizontal is uncomfortable.
+
+\end{column}
+\end{columns}
+\renewcommand{\footnotesize}{\fontsize{4pt}{6pt}\selectfont}
+
+\footnotetext[1] {Image Credit: INTRODUCTION TO CIRCOS GENOME VISUALIZATION WITH CIRCOS Pasteur Institute 13 July 2010 
+}
+\end{frame}
+
+\begin{frame}{Advantages}
+    \item \textbf {Genomics need custom data visualization:}
+    \item \tiny Before circos, genomic data was visualized like each chr linearly --> BAD for showing complex genomic changes
+
+\begin{columns}
+\begin{column}{.4\textwidth}
+    \includegraphics[width=0.80\textwidth]{human_kariotype.png}
+
+\end{column}
+\begin{column}{.6\textwidth}
+    \includegraphics[width=0.95\textwidth]{ideogram1bis.jpg}
+
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Advantages}
+\item \textbf {Genomics need custom data visualization:}
+    \item \tiny Before circos, genomic data was visualized like each chr linearly: BAD for showing complex genomic changes.
+    
+\begin{columns}
+\begin{column}{.5\textwidth}
+    \includegraphics[width=0.95\textwidth]{ideogram1.jpg}
+    \item each line is a different sample: 
+    \item Red line: sample 1 (tumor A)
+    \item Blue line: sample 2 (tumor B)
+\end{column}
+\begin{column}{.5\textwidth}
+    \includegraphics[width=0.95\textwidth]{ideogram2.jpg}
+    \item COPY N CHANGES
+    \item if a gene has been duplicated the line in that sample will move upward.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Advantages}
+\item \textbf {Genomics need custom data visualization:}
+    \item \tiny Before circos, genomic data was visualized like each chr linearly: BAD for showing complex genomic changes.
+    
+\begin{columns}
+\begin{column}{.5\textwidth}
+    \includegraphics[width=0.95\textwidth]{ideogram1.jpg}
+    \item each line is a different sample: 
+    \item Line red: sample 1 (tumor A)
+    \item Line blue: sample 2 (tumor B)
+\end{column}
+\begin{column}{.5\textwidth}
+    \includegraphics[width=0.95\textwidth]{ideogram3.jpg}
+    \item COPY N CHANGES
+    \item if a gene was lost the line the line will move inward.
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Advantages}
+\item \textbf {Genomics need custom data visualization:}
+    \item \tiny Before circos, genomic data was visualized like each chr linearly: BAD for showing complex genomic changes.
+    
+\begin{columns}
+\begin{column}{.5\textwidth}
+    \includegraphics[width=0.95\textwidth]{3 chr trans.jpg}
+\end{column}
+\begin{column}{.5\textwidth}
+    \includegraphics[width=0.95\textwidth]{ideogram4.jpg}
+    \item LARGE REARRANGEMENTS
+    \item interchromosomal translocations across the genome (compared to reference genome).
+\end{column}
+\end{columns}
+
+
+\end{frame}
+
+
+\section{Examples}
+\subsection{Cover of Scientific Journals}
+\begin{frame}{Cover of Scientific Journals}
+    \includegraphics[width=0.95\textwidth]{coverScientificJournals.jpg}
+\end{frame}
+
+\subsection{Non scientific examples}
+\begin{frame}{Example 1: TV show}
+\begin{columns}
+\begin{column}{.65\textwidth}
+    \includegraphics[width=0.99\textwidth]{lost_cover.png}
+\end{column}
+
+\begin{column}{.35\textwidth}
+    \item \textbf {Relationships between characters of Lost:}
+    \item Each character is assigned a segment whose size is proportional to the number of relationships. 
+    \item Characters are categorized in five groups. There are 8 types of relationships
+    \item \textcolor{yellow}{Yellow: chance}
+    \item \textcolor{orange}{Orange: family}
+    \item \textcolor{red}{Red: romance}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Example 2: Political sciences}
+    \includegraphics[width=0.99\textwidth]{PoliticlaDebate_TheNewYotkTimes.png}
+\end{frame}
+
+\begin{frame}{Example 3: Economy}
+\item \textbf{Car transactions} 
+\item \tiny Car models are organized circularly and subdivided into categories/brands. Links between the brands refer to a transaction in which a customer sold a specific segment/brand in favour of another
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{economy.png}
+\end{center}
+
+\renewcommand{\footnotesize}{\fontsize{4pt}{6pt}\selectfont}
+\footnotetext[]{Image Credit: http://circos.ca/intro/generaldata}
+\end{frame}
+
+\begin{frame}{Example 3: Economy (detail)}
+    \includegraphics[width=0.96\textwidth]{circos_car2.png}
+    \renewcommand{\footnotesize}{\fontsize{4pt}{6pt}\selectfont}
+    \footnotetext[]{Image Credit: http://circos.ca/intro/generaldata}
+\end{frame}
+
+\begin{frame}{Example 4: Demographic data}
+    \item \textbf{Global Migration 2005-2010:}
+    \includegraphics[width=0.96\textwidth]{demographics.png}
+    \renewcommand{\footnotesize}{\fontsize{4pt}{6pt}\selectfont}
+    \footnotetext[]{Image Credit:Abel & Sander (2014). Quantifying Global International Migration Flows. Science, 343 (6178)}
+\end{frame}
+
+\begin{frame}{Example 5: Genomic Data}
+    \item \textbf{Structural variants:}
+    \item Circos plot of a human prostate cancer cell line
+    \includegraphics[width=0.96\textwidth]{genomic_data1.png}
+
+    \renewcommand{\footnotesize}{\fontsize{4pt}{6pt}\selectfont}
+    \footnotetext[]{Adapted from Hiltemann & Rasche (2020) Visualisation with Circos (Galaxy Training Materials). /training-material/topics/visualisation/tutorials/circos/tutorial.html Online; accessed Thu Sep 10 2020}
+\end{frame}
+
+\begin{frame}{Example 5: Genomic Data}
+    \item \textbf{Transposable elements in tomato:}
+    \includegraphics[width=0.80\textwidth]{circos_tomato.png}
+    \renewcommand{\footnotesize}{\fontsize{4pt}{6pt}\selectfont}
+    \footnotetext[]{Domínguez et. al 2020 Nat.Comm.}
+\end{frame}
+
+\section{Hands-on}
+\begin{frame}{Hands-on}
+\item \textbf{Workflow}
+\begin{center}
+    \includegraphics[width=0.99\textwidth]{HandsOn.png}
+\end{center}
+\end{frame}
+
+\section{A quick glance}
+\begin{frame}{A quick glance}
+\begin{columns}
+\begin{column}{.35\textwidth}
+\begin{itemize}
+    \item \textcolor{blue}{Circos1.conf : creating ideogram}
+    \item \textcolor{lightgray}{Circos2.conf : adding bands and ticks}
+    \item \textcolor{lightgray}{Circos3.conf: adding links}
+ \end{itemize}
+    \item \textbf{Ideogram:} major data classes for which you will plot the data.
+    \item \tiny For genomics data this is usually chromosomes, but could also be species, genes, individuals in a population, countries etc.
+
+ \end{column}
+
+\begin{column}{.65\textwidth}
+    \includegraphics[width=0.99\textwidth]{circos1.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{A quick glance}
+\begin{columns}
+\begin{column}{.35\textwidth}
+\begin{itemize}
+    \item \textcolor{lightgray}{Circos1.conf : creating ideogram}
+    \item \textcolor{blue}{Circos2.conf : adding bands and ticks}
+    \item \textcolor{lightgray}{Circos3.conf: adding links}
+ \end{itemize}
+\end{column}
+
+\begin{column}{.65\textwidth}
+    \includegraphics[width=0.99\textwidth]{circos2.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{A quick glance}
+\begin{columns}
+\begin{column}{.35\textwidth}
+\begin{itemize}
+    \item \textcolor{lightgray}{Circos1.conf : creating ideogram}
+    \item \textcolor{lightgray}{Circos2.conf : adding bands and ticks}
+    \item \textcolor{blue}{Circos3.conf: adding links}
+ \end{itemize}
+\end{column}
+
+\begin{column}{.65\textwidth}
+    \includegraphics[width=0.99\textwidth]{circos3.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
+\section{Discussion}
+\begin{frame}{Discussion}
+    \item \textbf {We have seen that Circos:}
+        \begin{itemize}
+            \item elegantly represents information with long axes or a large amount of categories
+            \item intuitively shows data with multiple tracks focusing on the same object
+            \item easily demonstrates relations between elements
+            \item[--] Putting as much information in a figure as possible: \textcolor{red}{NOT} A \textcolor{red}{GOOD} IDEA.
+            \item[--] Better focus on showing the \textbf {patterns} in the data that are actually \textbf {interesting}, rather than plotting everything we have.
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \centering \Large
+  \emph{Thank you for your attention!}
+  \emph{Questions or comments?}
+\end{frame}
+
+\end{document}
